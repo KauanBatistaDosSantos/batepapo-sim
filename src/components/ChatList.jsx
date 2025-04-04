@@ -1,31 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './ChatList.css';
 
-const chats = [
-  { id: 1, nome: 'Lucas', msg: 'Oi, tudo bem?', foto: 'https://i.pravatar.cc/150?img=1' },
-  { id: 2, nome: 'Rafael', msg: 'Curti teu perfil!', foto: 'https://i.pravatar.cc/150?img=2' },
-  { id: 3, nome: 'João', msg: 'Vamos marcar algo?', foto: 'https://i.pravatar.cc/150?img=3' },
-  { id: 4, nome: 'Igor', msg: 'Boa noite 😏', foto: 'https://i.pravatar.cc/150?img=4' },
-];
+const ChatList = ({ openChat, blockedNpcs = [] }) => {
+  const [chats, setChats] = useState([]);
+  const [npcData, setNpcData] = useState([]);
 
-const ChatList = ({ openChat }) => {
-    return (
-      <div className="chat-list">
-        {chats.map(chat => (
-          <div
-            key={chat.id}
-            className="chat-item"
-            onClick={() => openChat(chat)}
-          >
-            <img src={chat.foto} alt={chat.nome} className="chat-avatar" />
-            <div className="chat-info">
-              <strong>{chat.nome}</strong>
-              <p>{chat.msg}</p>
-            </div>
+  useEffect(() => {
+    // Carrega todos os NPCs
+    fetch('/data/npcs.json')
+      .then(res => res.json())
+      .then(npcs => {
+        setNpcData(npcs);
+
+        const allChats = [];
+
+        for (let i = 1; i <= 100; i++) {
+          const key = `chat-npc-${i}`;
+          const saved = localStorage.getItem(key);
+
+          if (saved) {
+            const mensagens = JSON.parse(saved);
+            if (mensagens.length > 0) {
+              const ultima = mensagens[mensagens.length - 1];
+              const npc = npcs.find(n => n.id === i);
+
+              if (npc) {
+                allChats.push({
+                  id: i,
+                  nome: npc.nome,
+                  foto: npc.foto,
+                  distancia: npc.distancia,
+                  ultimaMsg: ultima.text || '[imagem]',
+                });
+              }
+            }
+          }
+        }
+
+        setChats(allChats);
+      });
+  }, []);
+
+  return (
+    <div className="chat-list">
+      {chats
+      .filter(chat => !blockedNpcs.some(b => b.id === chat.id))
+      .map(chat => (
+        <div
+          key={chat.id}
+          className="chat-item"
+          onClick={() =>
+            openChat({
+              id: chat.id,
+              nome: chat.nome,
+              foto: chat.foto,
+              distancia: chat.distancia
+            })
+          }
+        >
+          <img src={chat.foto} alt={chat.nome} className="chat-avatar" />
+          <div className="chat-info">
+            <strong>{chat.nome}</strong>
+            <p>{chat.ultimaMsg}</p>
           </div>
-        ))}
-      </div>
-    );
-  };
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default ChatList;

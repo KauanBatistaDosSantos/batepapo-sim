@@ -8,18 +8,16 @@ import Chat from './pages/Chat';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [selectedNpc, setSelectedNpc] = useState(null); // novo estado
+  const [selectedNpc, setSelectedNpc] = useState(null);
   const [favoritedNpcs, setFavoritedNpcs] = useState([]);
   const [blockedNpcs, setBlockedNpcs] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [returnToChat, setReturnToChat] = useState(null);
 
-  // Função pra mostrar perfil
   const openNpcProfile = (npc) => {
     setSelectedNpc(npc);
   };
 
-  // Função pra voltar da tela de perfil
   const closeNpcProfile = () => {
     if (returnToChat) {
       setSelectedNpc(null);
@@ -37,7 +35,7 @@ function App() {
         : [...prev, npc]
     );
   };
-  
+
   const toggleBlock = (npc) => {
     setBlockedNpcs(prev =>
       prev.some(blocked => blocked.id === npc.id)
@@ -50,14 +48,14 @@ function App() {
     <div className="app">
       {activeChat ? (
         <Chat
-        npc={activeChat}
-        goBack={() => setActiveChat(null)}
-        openProfile={() => {
-          setReturnToChat(activeChat);      // ← lembrar que o perfil veio do chat
-          setActiveChat(null);              // fecha o chat
-          setSelectedNpc(activeChat);       // abre o perfil
-        }}
-      />
+          npc={activeChat}
+          goBack={() => setActiveChat(null)}
+          openProfile={() => {
+            setReturnToChat(activeChat);
+            setActiveChat(null);
+            setSelectedNpc(activeChat);
+          }}
+        />
       ) : selectedNpc ? (
         <NpcProfile
           npc={selectedNpc}
@@ -70,14 +68,27 @@ function App() {
         />
       ) : (
         <>
-          {currentPage === 'home' && <Home openNpcProfile={openNpcProfile} />}
+          {currentPage === 'home' && (
+            <Home
+              openNpcProfile={openNpcProfile}
+              blockedNpcs={blockedNpcs}
+            />
+          )}
+
+          {currentPage === 'messages' && (
+            <Messages
+              openChat={setActiveChat}
+              blockedNpcs={blockedNpcs}
+            />
+          )}
+
           {currentPage === 'favorites' && (
             <Favorites
               favorites={favoritedNpcs}
               openNpcProfile={openNpcProfile}
             />
           )}
-          {currentPage === 'messages' && <Messages openChat={setActiveChat} />}
+
           <BottomNav
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}

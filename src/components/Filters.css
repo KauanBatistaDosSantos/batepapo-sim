@@ -6,6 +6,8 @@
     background-color: #fff;
     border-bottom: 1px solid #eee;
     gap: 10px;
+    position: relative;
+    z-index: 20;
   }
   
   .filter-icon {
@@ -47,4 +49,48 @@
   .filter-button:hover {
     background: #ddd;
   }
+  
+  .filters-advanced {
+    position: fixed;
+    top: 115px; /* abaixo do header */
+    left: 12px;
+    z-index: 999;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    width: max-content;
+    max-width: 90vw;
+  }
+  
+  .filter-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+  
+  .filter-row span {
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 8px;
+  }
+  
+  .filter-button.small {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  
+  .advanced-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .filter-button.active {
+    background-color: #222;
+    color: white;
+  }
+  
   

@@ -141,3 +141,161 @@
   font-size: 22px;
   cursor: pointer;
 }
+
+.galeria-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .galeria-popup {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .galeria-grid img {
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .galeria-grid img:hover {
+    transform: scale(1.05);
+  }
+  
+  .chat-gallery {
+    position: relative;
+    padding: 16px;
+    background-color: #fff;
+    max-height: 40vh;
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+  }  
+  
+  .gallery-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .gallery-grid {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .gallery-thumb {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: transform 0.2s ease;
+  }
+  
+  .gallery-thumb:hover {
+    transform: scale(1.05);
+  }
+  
+  .close-gallery-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: white;
+    border: none;
+    font-size: 18px;
+    padding: 4px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+  }  
+  
+  .imagem-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .imagem-popup {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+  
+  .zoom-img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+  }
+  
+  .nav-img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: auto; /* ← garante que pode clicar mesmo invisível */
+    transition: opacity 0.3s ease;
+  }
+  
+  .nav-img.visivel {
+    opacity: 1;
+  }
+  
+  .nav-img.invisivel {
+    opacity: 0;
+  }
+  
+  .nav-img.left {
+    left: 10px;
+  }
+  
+  .nav-img.right {
+    right: 10px;
+  }  
+  
+  .close-img-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 22px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 2;
+  }

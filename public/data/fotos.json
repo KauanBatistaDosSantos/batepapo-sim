@@ -1,0 +1,21 @@
+[
+    {
+      "npcId": 1,
+      "autor": "player",
+      "url": "/fotos/luanSelfie.jpg",
+      "data": "2025-04-02T15:30:00"
+    },
+    {
+      "npcId": 1,
+      "autor": "player",
+      "url": "/fotos/luanPraia.jpg",
+      "data": "2025-04-01T12:15:00"
+    },
+    {
+      "npcId": 1,
+      "autor": "player",
+      "url": "/fotos/luanSelfie2.jpg",
+      "data": "2025-03-30T22:00:00"
+    }
+  ]
+  

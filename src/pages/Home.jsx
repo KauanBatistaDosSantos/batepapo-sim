@@ -1,25 +1,93 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Filters from '../components/Filters';
 import ProfileGrid from '../components/ProfileGrid';
 
-const npcs = [
-    { id: 1, nome: 'Lucas', foto: 'https://i.pravatar.cc/150?img=1' },
-    { id: 2, nome: 'Rafael', foto: 'https://i.pravatar.cc/150?img=11' },
-    { id: 3, nome: 'Thiago', foto: 'https://i.pravatar.cc/150?img=3' },
-    { id: 4, nome: 'Matheus', foto: 'https://i.pravatar.cc/150?img=12' },
-    { id: 5, nome: 'Carlos', foto: 'https://i.pravatar.cc/150?img=13' },
-    { id: 6, nome: 'João', foto: 'https://i.pravatar.cc/150?img=14' },
-    { id: 7, nome: 'Bruno', foto: 'https://i.pravatar.cc/150?img=7' },
-    { id: 8, nome: 'Igor', foto: 'https://i.pravatar.cc/150?img=8' },
-  ];
+const Home = ({ openNpcProfile, blockedNpcs }) => {
+  const [npcsOriginais, setNpcsOriginais] = useState([]);
+  const [npcsFiltrados, setNpcsFiltrados] = useState([]);
+  const [filtrosAtivos, setFiltrosAtivos] = useState([]);
+  const [filtrosAvancados, setFiltrosAvancados] = useState({});
 
-const Home = ({ openNpcProfile }) => {
+  useEffect(() => {
+    fetch('/data/npcs.json')
+      .then(res => res.json())
+      .then(data => {
+        const ordenados = [...data].sort((a, b) => {
+          if (a.online === b.online) {
+            return a.distancia - b.distancia;
+          }
+          return b.online - a.online;
+        });
+        setNpcsOriginais(ordenados);
+      });
+  }, []);
+
+  useEffect(() => {
+    let filtrados = [...npcsOriginais];
+
+    // 🔒 Remove NPCs bloqueados
+    if (blockedNpcs && blockedNpcs.length > 0) {
+      filtrados = filtrados.filter(npc => !blockedNpcs.some(b => b.id === npc.id));
+    }
+
+    // 🔍 Filtros rápidos
+    filtrosAtivos.forEach(filtro => {
+      switch (filtro) {
+        case 'Online agora':
+          filtrados = filtrados.filter(npc => npc.online);
+          break;
+        case 'Com foto':
+          filtrados = filtrados.filter(npc => npc.foto);
+          break;
+        case 'Perto de mim':
+          filtrados = filtrados.filter(npc => npc.distancia <= 1000);
+          break;
+        case 'Novo':
+          filtrados = filtrados.filter(npc => npc.novo);
+          break;
+        case 'Favorito':
+          const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+          filtrados = filtrados.filter(npc => favoritos.includes(npc.id));
+          break;
+        default:
+          break;
+      }
+    });
+
+    // 🎯 Filtros avançados
+    if (filtrosAvancados.idadeMin) {
+      filtrados = filtrados.filter(npc => npc.idade >= Number(filtrosAvancados.idadeMin));
+    }
+    if (filtrosAvancados.idadeMax) {
+      filtrados = filtrados.filter(npc => npc.idade <= Number(filtrosAvancados.idadeMax));
+    }
+    if (filtrosAvancados.alturaMin) {
+      filtrados = filtrados.filter(npc => {
+        const alturaNum = parseFloat(npc.altura?.replace(',', '.').replace('m', '')) || 0;
+        return alturaNum >= filtrosAvancados.alturaMin / 100;
+      });
+    }
+    if (filtrosAvancados.pesoMax) {
+      filtrados = filtrados.filter(npc => {
+        const pesoNum = parseInt(npc.peso?.replace('kg', '')) || 0;
+        return pesoNum <= filtrosAvancados.pesoMax;
+      });
+    }
+
+    setNpcsFiltrados(filtrados);
+  }, [filtrosAtivos, filtrosAvancados, npcsOriginais, blockedNpcs]);
+
   return (
     <div className="home-page">
       <Header />
-      <Filters />
-      <ProfileGrid npcs={npcs} openNpcProfile={openNpcProfile} />
+      <Filters
+        filtrosAtivos={filtrosAtivos}
+        setFiltrosAtivos={setFiltrosAtivos}
+        filtrosAvancados={filtrosAvancados}
+        setFiltrosAvancados={setFiltrosAvancados}
+      />
+      <ProfileGrid npcs={npcsFiltrados} openNpcProfile={openNpcProfile} />
     </div>
   );
 };

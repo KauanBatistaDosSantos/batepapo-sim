@@ -1,0 +1,42 @@
+{
+    "1": {
+      "inicio": {
+        "respostas": ["Oi, tudo bem?", "Você parece legal!"],
+        "npc": {
+          "Oi, tudo bem?": {
+            "resposta": "Tudo ótimo! E você?",
+            "proximas": ["Melhor agora 😏", "Só de boas."]
+          },
+          "Você parece legal!": {
+            "resposta": "Ah, valeu! Você também tem um ótimo perfil.",
+            "proximas": ["Gostou do meu perfil?", "Quer conversar mais?"]
+          },
+          "Melhor agora 😏": {
+            "resposta": "Haha, adorei isso 😄",
+            "proximas": ["Então vamos marcar algo?", "Você é sempre assim simpático?"]
+          },
+          "Só de boas.": {
+            "resposta": "Tranquilo é sempre bom 😌",
+            "proximas": ["Gosta de sair?", "Curte séries?"]
+          }
+        }
+      }
+    },
+  
+    "2": {
+      "inicio": {
+        "respostas": ["Oi Rafael! Tudo certo?", "Amei sua última foto!"],
+        "npc": {
+          "Oi Rafael! Tudo certo?": {
+            "resposta": "Tudo sim, e você?",
+            "proximas": ["Melhor agora 😏", "Tudo ótimo!"]
+          },
+          "Amei sua última foto!": {
+            "resposta": "Sério? Foi em Trancoso 😎",
+            "proximas": ["Lá parece lindo!", "Quero ir um dia!"]
+          }
+        }
+      }
+    }
+  }
+  

@@ -58,16 +58,31 @@ const NpcProfile = ({
           {npc.online ? 'Online agora' : `Online ${npc.ultimaOnline}`}
           &nbsp;&bull;&nbsp;{npc.distancia}
         </p>
-        <p className="summary">{npc.papel} • {npc.altura} • {npc.peso} • {npc.corpo}</p>
+        <p className="summary">
+            {[npc.papel, npc.altura, npc.peso, npc.corpo].filter(Boolean).join(' • ')}
+        </p>
 
         <h3>SOBRE MIM</h3>
         <div className="sobre-box">{npc.sobre}</div>
 
         <h3>INFORMAÇÕES PESSOAIS</h3>
-        <p>{npc.idade} anos<br />{npc.altura} {npc.peso} {npc.corpo}<br />{npc.genero}<br />{npc.sexualidade}</p>
+        <p>
+            {npc.idade && `${npc.idade} anos`}<br />
+            {[npc.altura, npc.peso, npc.corpo].filter(Boolean).join(' ')}<br />
+            {npc.genero && <>{npc.genero}<br /></>}
+            {npc.sexualidade}
+        </p>
 
         <h3>DETALHES ADICIONAIS</h3>
-        <p>{npc.status}<br />{npc.papel}<br />{npc.estilo}<br />{npc.interesse}<br />{npc.fumante}<br />{npc.signo}<br />{npc.instagram}</p>
+        <p>
+            {npc.status && <>{npc.status}<br /></>}
+            {npc.papel && <>{npc.papel}<br /></>}
+            {npc.estilo && <>{npc.estilo}<br /></>}
+            {npc.interesse && <>{npc.interesse}<br /></>}
+            {npc.fumante && <>{npc.fumante}<br /></>}
+            {npc.signo && <>{npc.signo}<br /></>}
+            {npc.instagram && <>{npc.instagram}</>}
+        </p>
       </div>
 
       <div className="npc-message-bar">

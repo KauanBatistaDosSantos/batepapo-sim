@@ -25,32 +25,55 @@ const npc = {
 
 const NpcProfile = ({
     npc,
+    npcList,         // lista de todos os NPCs
+    currentIndex,     // índice atual do NPC
     goBack,
     isFavorited,
     isBlocked,
     onToggleFavorite,
     onToggleBlock,
     onStartChat,
+    goToNextNpc,      // função para ir ao próximo
+    goToPreviousNpc   // função para ir ao anterior
   }) => {
+  
     if (!npc) return null;
     
   return (
     <div className="npc-profile">
       <div className="npc-image-container">
+        {/* Área esquerda para ir ao anterior */}
+        <div
+            className="image-nav-left"
+            onClick={(e) => {
+                e.stopPropagation(); // <- evita conflito com goBack
+                goToPreviousNpc();
+            }}
+        ></div>
+
         <img src={npc.foto} alt={npc.nome} className="npc-image" />
 
+        {/* Área direita para ir ao próximo */}
+        <div
+            className="image-nav-right"
+            onClick={(e) => {
+                e.stopPropagation(); // <- evita conflito com goBack
+                goToNextNpc();
+            }}
+        ></div>
+
         <div className="npc-overlay">
-          <button className="overlay-btn" onClick={goBack}>←</button>
-          <div className="right-icons">
+            <button className="overlay-btn" onClick={goBack}>←</button>
+            <div className="right-icons">
             <button className="overlay-btn" onClick={onToggleBlock}>
                 {isBlocked ? '🚫 Bloqueado' : '🚫'}
             </button>
             <button className="overlay-btn" onClick={onToggleFavorite}>
                 {isFavorited ? '⭐ Favorito' : '⭐'}
-        </button>
-          </div>
+            </button>
+            </div>
         </div>
-      </div>
+        </div>
 
       <div className="npc-infos">
         <h2>{npc.nome}, {npc.idade}</h2>

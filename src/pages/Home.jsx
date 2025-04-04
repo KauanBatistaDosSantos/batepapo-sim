@@ -87,7 +87,10 @@ const Home = ({ openNpcProfile, blockedNpcs }) => {
         filtrosAvancados={filtrosAvancados}
         setFiltrosAvancados={setFiltrosAvancados}
       />
-      <ProfileGrid npcs={npcsFiltrados} openNpcProfile={openNpcProfile} />
+      <ProfileGrid
+            npcs={npcsFiltrados}
+            openNpcProfile={(npc) => openNpcProfile(npc, npcsFiltrados)}
+      />
     </div>
   );
 };

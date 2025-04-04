@@ -13,10 +13,26 @@ function App() {
   const [blockedNpcs, setBlockedNpcs] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
   const [returnToChat, setReturnToChat] = useState(null);
+  const [npcList, setNpcList] = useState([]); // ← lista visível no momento
 
-  const openNpcProfile = (npc) => {
+  const openNpcProfile = (npc, list = []) => {
     setSelectedNpc(npc);
+    setNpcList(list);
+  };  
+
+  const goToNextNpc = () => {
+    const currentIndex = npcList.findIndex(n => n.id === selectedNpc.id);
+    if (currentIndex < npcList.length - 1) {
+      setSelectedNpc(npcList[currentIndex + 1]);
+    }
   };
+  
+  const goToPreviousNpc = () => {
+    const currentIndex = npcList.findIndex(n => n.id === selectedNpc.id);
+    if (currentIndex > 0) {
+      setSelectedNpc(npcList[currentIndex - 1]);
+    }
+  };  
 
   const closeNpcProfile = () => {
     if (returnToChat) {
@@ -65,6 +81,8 @@ function App() {
           onToggleFavorite={() => toggleFavorite(selectedNpc)}
           onToggleBlock={() => toggleBlock(selectedNpc)}
           onStartChat={() => setActiveChat(selectedNpc)}
+          goToNextNpc={goToNextNpc}
+          goToPreviousNpc={goToPreviousNpc}
         />
       ) : (
         <>

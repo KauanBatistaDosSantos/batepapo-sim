@@ -111,3 +111,21 @@
     cursor: pointer;
   }
   
+  .image-nav-left,
+  .image-nav-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30%;
+    z-index: 2;
+    cursor: pointer;
+  }
+  
+  .image-nav-left {
+    left: 0;
+  }
+  
+  .image-nav-right {
+    right: 0;
+  }
+  

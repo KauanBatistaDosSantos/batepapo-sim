@@ -43,6 +43,7 @@
   max-width: 150px; /* ou o tamanho que desejar */
   padding: 0; /* tira o padding se não quiser espaço extra */
   background: transparent; /* remove o fundo */
+  gap: 2px;
 }
 
 .npc-info strong {
@@ -56,18 +57,35 @@
 }
 
 .chat-body {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-}
+    display: flex;
+    flex-direction: column; /* ✅ ORDEM NATURAL */
+    overflow-y: auto;
+    flex: 1;
+    gap: 6px;
+    padding: 10px;
+  }
 
 .chat-bubble {
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  border-radius: 16px;
-  max-width: 70%;
-  font-size: 14px;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    border-radius: 16px;
+    max-width: 90%;
+    font-size: 14px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    min-width: 60px;
+    width: fit-content; /* 👈 ajusta a largura ao conteúdo */
 }
+  
+  
+.chat-bubble img {
+    display: block;
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 12px;
+    margin-top: 4px;
+    cursor: pointer;
+}  
 
 .chat-bubble.user {
   background: #d1e7ff;
@@ -299,3 +317,18 @@
     cursor: pointer;
     z-index: 2;
   }
+
+  .chat-date-divider {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin: 10px 0;
+  }
+  
+  .timestamp {
+    font-size: 10px;
+    color: #777;
+    margin-top: 4px;
+    text-align: right;
+  }
+  

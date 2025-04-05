@@ -64,17 +64,20 @@ function App() {
     <div className="app">
       {activeChat ? (
         <Chat
-          npc={activeChat}
-          goBack={() => setActiveChat(null)}
-          openProfile={() => {
-            setReturnToChat(activeChat);
-            setActiveChat(null);
-            setSelectedNpc(activeChat);
-          }}
-        />
+        npc={activeChat}
+        goBack={() => setActiveChat(null)}
+        openProfile={(npcCompleto, lista) => {
+          setReturnToChat(activeChat);
+          setActiveChat(null);
+          setSelectedNpc({ ...npcCompleto, fromChat: true }); // ✅ marca que veio do chat
+          setNpcList(lista || []);
+        }}
+      />
+      
       ) : selectedNpc ? (
         <NpcProfile
           npc={selectedNpc}
+          npcList={npcList} // 👈 isso estava faltando
           goBack={closeNpcProfile}
           isFavorited={favoritedNpcs.some(n => n.id === selectedNpc.id)}
           isBlocked={blockedNpcs.some(n => n.id === selectedNpc.id)}
@@ -84,6 +87,7 @@ function App() {
           goToNextNpc={goToNextNpc}
           goToPreviousNpc={goToPreviousNpc}
         />
+
       ) : (
         <>
           {currentPage === 'home' && (

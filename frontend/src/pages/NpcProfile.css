@@ -1,0 +1,243 @@
+.npc-profile {
+    height: 100vh;
+    overflow-y: auto; /* ← permitir a rolagem da tela inteira */
+    background: #fafafa;
+    position: relative;
+  }
+  
+  .npc-image-container {
+    width: 100%;
+    height: 375px; /* ou a altura que quiser */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    overflow: hidden; /* isso garante que a parte cortada não "vaze" */
+  }  
+  
+  .npc-image {
+    width: 100%;
+    max-height: 375px; /* ou o valor que quiser para altura */
+    object-fit: contain; /* isso faz caber inteira, mesmo se for alta */
+    background-color: #000; /* ajuda a destacar a imagem ao centralizar */
+    display: block;
+    object-fit: cover;
+  }
+  
+  
+  /* BARRA FLUTUANTE */
+  .npc-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+    z-index: 10;
+  }
+  
+  .overlay-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    margin: 0 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .right-icons {
+    display: flex;
+  }
+  
+  .npc-infos {
+    padding: 16px;
+    background: #fafafa;
+    padding-bottom: 100px; /* <- esse padding extra resolve o problema */
+  }
+  
+  .status {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  
+  .summary {
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  
+  h3 {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .sobre-box {
+    background: white;
+    border: 1px solid #ddd;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 0px;
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  
+  .npc-message-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ddd;
+    z-index: 9;
+  }
+  
+  .npc-message-bar input {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  
+  .npc-message-bar button {
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+/* === NAVEGAÇÃO ENTRE FOTOS === */
+.image-nav-left:not(.profile-nav),
+.image-nav-right:not(.profile-nav) {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: none;
+  color: white;
+  font-size: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Posicionamento exato das setas de fotos */
+.image-nav-left:not(.profile-nav) {
+  left: 10px;
+}
+
+.image-nav-right:not(.profile-nav) {
+  right: 10px;
+}
+
+/* === NAVEGAÇÃO ENTRE PERFIS (Home) - AGORA FIXA === */
+.image-nav-left.profile-nav,
+.image-nav-right.profile-nav {
+  position: fixed; /* ← isso fixa na tela */
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  z-index: 1;
+  cursor: pointer;
+}
+.image-nav-left.profile-nav {
+  left: 0;
+}
+.image-nav-right.profile-nav {
+  right: 0;
+}
+
+.foto-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+  }
+  
+  .popup-img-wrapper {
+    position: relative;
+    width: 100vw;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
+  .popup-img-wrapper img {
+    width: 100vw;
+    height: auto;
+    object-fit: contain;
+    max-height: 90vh; /* ⬅ evita que fique maior que a tela */
+    border-radius: 0;
+    display: block;
+    object-fit: contain;
+  }
+  
+  .popup-nav {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s ease;
+  }
+  
+  .popup-nav.left {
+    left: 0;
+  }
+  
+  .popup-nav.right {
+    right: 0;
+  }
+  
+  
+  .close-popup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 21;
+    border-radius: 50%;
+    padding: 6px 10px;
+  }
+  
+
+  

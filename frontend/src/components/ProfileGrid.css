@@ -4,13 +4,13 @@
     gap: 6px;
     padding: 6px;
   }
-  
+
   .profile-card {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
-    aspect-ratio: 1 / 1; /* sempre quadradinho */
+    aspect-ratio: 1 / 1;
   }
   
   .profile-image {
@@ -26,7 +26,7 @@
     left: 0;
     right: 0;
     margin-bottom: 0;
-    padding: 4px 6px 4px 10px; /* topo, direita, baixo, esquerda */
+    padding: 4px 6px 4px 10px;
     background: rgba(0, 0, 0, 0.2);
     color: white;
     font-size: 14px;
@@ -50,8 +50,26 @@
     display: inline-block;
     width: 8px;
     height: 8px;
-    background-color: #4caf50; /* verde */
+    background-color: #4caf50;
     border-radius: 50%;
     margin-right: 6px;
     vertical-align: middle;
-  }  
+  }
+
+  @media (min-width: 600px) {
+    .profile-grid {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+  }
+  
+  @media (min-width: 900px) {
+    .profile-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .profile-grid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+  }

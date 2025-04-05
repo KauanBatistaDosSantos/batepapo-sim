@@ -10,7 +10,7 @@ const Home = ({ openNpcProfile, blockedNpcs }) => {
   const [filtrosAvancados, setFiltrosAvancados] = useState({});
 
   useEffect(() => {
-    fetch('/data/npcs.json')
+    fetch('http://localhost:8000/npcs')
       .then(res => res.json())
       .then(data => {
         const ordenados = [...data].sort((a, b) => {

@@ -23,10 +23,37 @@
     object-fit: cover;
     margin-right: 10px;
   }
+
+  .chat-info {
+    flex: 1; /* 🆗 Ocupa todo o espaço restante */
+    display: flex;
+    flex-direction: column;
+  }
   
   .chat-info p {
     margin: 2px 0 0;
     color: #555;
     font-size: 14px;
+  }
+  
+  .empty-chat-box {
+    text-align: center;
+    margin-top: 40px;
+    color: #666;
+    font-size: 15px;
+    padding: 20px;
+    line-height: 1.6;
+  }  
+
+  .chat-header-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* 🧱 Garante largura total */
+  }
+  
+  .chat-timestamp {
+    font-size: 0.75em;
+    color: #888;
   }
   

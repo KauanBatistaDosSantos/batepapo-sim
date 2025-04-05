@@ -1,0 +1,60 @@
+{
+  "1": [
+    {
+      "id": 1743796344580,
+      "from": "user",
+      "type": "text",
+      "text": "Oi, tudo bem?",
+      "timestamp": "2025-04-04T19:52:24.580Z"
+    },
+    {
+      "id": 1743796346544,
+      "from": "npc",
+      "type": "text",
+      "text": "Tudo ótimo! E você?",
+      "timestamp": "2025-04-04T19:52:26.543Z"
+    },
+    {
+      "id": 1743796349121,
+      "from": "user",
+      "type": "image",
+      "url": "/fotos/luanPraia.jpg",
+      "timestamp": "2025-04-04T19:52:29.121Z"
+    },
+    {
+      "id": 1743796534132,
+      "from": "user",
+      "type": "text",
+      "text": "Você parece legal!",
+      "timestamp": "2025-04-04T19:55:34.132Z"
+    },
+    {
+      "id": 1743796536341,
+      "from": "npc",
+      "type": "text",
+      "text": "Ah, valeu! Você também tem um ótimo perfil.",
+      "timestamp": "2025-04-04T19:55:36.340Z"
+    },
+    {
+      "id": 1743796540283,
+      "from": "user",
+      "type": "text",
+      "text": "Gostou do meu perfil?",
+      "timestamp": "2025-04-04T19:55:40.283Z"
+    },
+    {
+      "id": 1743796542626,
+      "from": "npc",
+      "type": "text",
+      "text": "Interessante!",
+      "timestamp": "2025-04-04T19:55:42.625Z"
+    },
+    {
+      "id": 1743820954376,
+      "from": "user",
+      "type": "image",
+      "url": "/fotos/luanSelfie.jpg",
+      "timestamp": "2025-04-05T02:42:34.376Z"
+    }
+  ]
+}

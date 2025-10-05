@@ -1,0 +1,180 @@
+.dialogo-manager {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+    background-color: #fdfdfd;
+  }
+  
+  .dialogo-manager h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #34495e;
+  }
+  
+  .dialogo-manager select {
+    padding: 10px 14px;
+    font-size: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #2c3e50;
+  }
+  
+  .dialogo-manager button {
+    padding: 10px 14px;
+    margin-left: 8px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .dialogo-manager button:hover {
+    background-color: #2980b9;
+  }
+  
+  .dialogo-editor {
+    margin-top: 30px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+  }
+  
+  .falas-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 16px;
+  }
+  
+  .fala-card {
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  
+  .fala-card input[type="text"],
+  .fala-card textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background: #ffffff;
+  }
+  
+  .fala-card textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+  
+  .btn-remove {
+    background: transparent;
+    color: red;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .btn-remove:hover {
+    background-color: #c0392b;
+  }
+  
+  .btn-salvar {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .btn-salvar:hover {
+    background-color: #449944;
+  }
+  
+  .proximas-lista {
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .prox-item {
+    display: flex;
+    gap: 6px;
+  }
+  
+  .jogador-fala, .npc-resposta, .proximas-falas {
+    margin-bottom: 12px;
+  }
+  
+  .jogador-fala {
+    background-color: #fff8e6; /* amarelo claro */
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .npc-resposta {
+    background-color: #e6f4ff; /* azul claro */
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .proximas-falas {
+    background-color: #f3f3f3; /* cinza claro */
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .prox-item {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .grupo-falas-jogador {
+    border: 2px dashed #f1c40f;
+    background-color: #fffdeb;
+    padding: 16px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .grupo-header {
+    font-weight: bold;
+    color: #b8860b;
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+  
+  .grupo-falas-jogador.nivel-2 {
+    border-color: #95a5a6;
+    background-color: #f4f6f6;
+  }
+  
+  .grupo-falas-jogador.nivel-3 {
+    border-color: #7f8c8d;
+    background-color: #ecf0f1;
+  }  

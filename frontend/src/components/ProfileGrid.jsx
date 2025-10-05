@@ -2,9 +2,11 @@ import React from 'react';
 import './ProfileGrid.css';
 
 const ProfileGrid = ({ npcs, openNpcProfile, showStar = false }) => {
+  const npcsVisiveis = npcs.filter(npc => !npc.bloqueado); // ⛔ remove os bloqueados
+
     return (
       <div className="profile-grid">
-        {npcs.map(npc => (
+        {npcsVisiveis.map(npc => (
           <div
             key={npc.id}
             className="profile-card"

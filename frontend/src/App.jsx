@@ -5,6 +5,9 @@ import Messages from './pages/Messages';
 import BottomNav from './components/BottomNav';
 import NpcProfile from './pages/NpcProfile';
 import Chat from './pages/Chat';
+import AdminPanel from './pages/AdminPanel';
+import { useEffect } from 'react';
+import Settings from './pages/Settings';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -12,6 +15,21 @@ function App() {
   const [favoritedNpcs, setFavoritedNpcs] = useState([]);
   const [blockedNpcs, setBlockedNpcs] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
+    const [userProfile, setUserProfile] = useState({
+    name: 'João Silva',
+    email: 'joao.silva@email.com',
+    bio: 'Aventureiro digital apaixonado por descobrir novas histórias.',
+    avatarUrl: 'https://i.pravatar.cc/150?img=12',
+    language: 'pt-BR',
+    theme: 'light',
+    password: 'senha123',
+    notifications: {
+      email: true,
+      sms: false,
+      push: true,
+    },
+  });
+
   const [returnToChat, setReturnToChat] = useState(null);
   const [npcList, setNpcList] = useState([]); // ← lista visível no momento
 
@@ -52,6 +70,23 @@ function App() {
     );
   };
 
+  const updateUserProfile = (updates) => {
+    setUserProfile(prev => ({
+      ...prev,
+      ...updates,
+      notifications: updates.notifications
+        ? { ...prev.notifications, ...updates.notifications }
+        : prev.notifications,
+    }));
+  };
+
+  const updateUserPassword = (newPassword) => {
+    setUserProfile(prev => ({
+      ...prev,
+      password: newPassword,
+    }));
+  };
+
   const toggleBlock = (npc) => {
     setBlockedNpcs(prev =>
       prev.some(blocked => blocked.id === npc.id)
@@ -59,6 +94,13 @@ function App() {
         : [...prev, npc]
     );
   };
+
+  useEffect(() => {
+    const url = new URLSearchParams(window.location.search);
+    if (url.has('admin')) {
+      setCurrentPage('admin');
+    }
+  }, []);  
 
   return (
     <div className="app">
@@ -104,6 +146,10 @@ function App() {
             />
           )}
 
+          {currentPage === 'admin' && (
+            <AdminPanel />
+          )}
+
           {currentPage === 'favorites' && (
             <Favorites
               favorites={favoritedNpcs}
@@ -111,10 +157,21 @@ function App() {
             />
           )}
 
-          <BottomNav
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+                    {currentPage === 'settings' && (
+            <Settings
+              profile={userProfile}
+              onSaveProfile={updateUserProfile}
+              onChangePassword={updateUserPassword}
+            />
+          )}
+
+          {currentPage !== 'admin' && (
+            <BottomNav
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
+
         </>
       )}
     </div>

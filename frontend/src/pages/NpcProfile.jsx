@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './NpcProfile.css';
 
 const NpcProfile = ({
@@ -24,6 +24,7 @@ const NpcProfile = ({
   const [ampliada, setAmpliada] = useState(false);
 
   const fotoAtual = fotos[fotoIndex] || npc.foto;
+  const topoRef = useRef(null);
 
   const irParaAnterior = () => {
     setFotoIndex((prev) => (prev - 1 + fotos.length) % fotos.length);
@@ -32,6 +33,29 @@ const NpcProfile = ({
   const irParaProxima = () => {
     setFotoIndex((prev) => (prev + 1) % fotos.length);
   };
+
+  const handleNextNpc = () => {
+    goToNextNpc(); // apenas isso
+  };
+  
+  const handlePreviousNpc = () => {
+    goToPreviousNpc(); // apenas isso
+  };
+  
+
+  useEffect(() => {
+    if (!npc?.id || !topoRef.current) return;
+  
+    const timeout = setTimeout(() => {
+      requestAnimationFrame(() => {
+        topoRef.current.scrollIntoView({ behavior: 'smooth' });
+        console.log("🔼 ScrollIntoView executado para NPC ID:", npc.id);
+      });
+    }, 50);
+  
+    return () => clearTimeout(timeout);
+  }, [npc?.id]);  
+  
 
   const toggleFavorite = async () => {
     try {
@@ -49,8 +73,25 @@ const NpcProfile = ({
     }
   };  
 
+  const toggleBlock = async () => {
+    try {
+      const res = await fetch(`http://localhost:8000/npcs/${npc.id}/bloquear`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (res.ok) {
+        npc.bloqueado = data.bloqueado;
+        onToggleBlock?.(); // Atualiza estado externo se necessário
+      }
+    } catch (err) {
+      alert("Erro ao bloquear NPC.");
+      console.error(err);
+    }
+  };  
+
   return (
     <div className="npc-profile">
+      <div ref={topoRef}></div>
       <div className="npc-image-container">
 
         {/* Seta lateral esquerda para navegar fotos */}
@@ -63,11 +104,11 @@ const NpcProfile = ({
 
         {/* Navegação de perfil (apenas se veio da Home) */}
         {!npc.fromChat && typeof goToPreviousNpc === 'function' && (
-          <div className="image-nav-left profile-nav" onClick={(e) => {
-            e.stopPropagation();
-            goToPreviousNpc();
-          }}></div>
-        )}
+        <div className="image-nav-left profile-nav" onClick={(e) => {
+          e.stopPropagation();
+          handlePreviousNpc();
+        }}></div>
+      )}
 
         <img
           src={fotoAtual}
@@ -77,10 +118,11 @@ const NpcProfile = ({
           style={{ cursor: 'zoom-in' }}
         />
 
+        
         {!npc.fromChat && typeof goToNextNpc === 'function' && (
           <div className="image-nav-right profile-nav" onClick={(e) => {
             e.stopPropagation();
-            goToNextNpc();
+            handleNextNpc();
           }}></div>
         )}
 
@@ -95,7 +137,7 @@ const NpcProfile = ({
         <div className="npc-overlay">
           <button className="overlay-btn" onClick={goBack}>←</button>
           <div className="right-icons">
-            <button className="overlay-btn" onClick={onToggleBlock}>
+            <button className="overlay-btn" onClick={toggleBlock}>
               {isBlocked ? '🚫 Bloqueado' : '🚫'}
             </button>
             <button className="overlay-btn" onClick={toggleFavorite}>

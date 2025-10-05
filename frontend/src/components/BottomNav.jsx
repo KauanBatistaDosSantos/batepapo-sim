@@ -25,6 +25,13 @@ const BottomNav = ({ currentPage, setCurrentPage }) => {
         💬
         <span>Conversas</span>
       </button>
+            <button
+        className={currentPage === 'settings' ? 'nav-btn active' : 'nav-btn'}
+        onClick={() => setCurrentPage('settings')}
+      >
+        ⚙️
+        <span>Perfil</span>
+      </button>
     </nav>
   );
 };

@@ -1,0 +1,93 @@
+/* NpcManager.css */
+
+.npc-manager {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.npc-manager h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+fieldset {
+    border: 1px solid #bdc3c7;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 16px;
+  }
+
+legend {
+  padding: 0 10px;
+  color: #2980b9;
+  font-size: 18px;
+}
+
+input[type="text"] {
+    padding: 6px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+    width: 120px;
+  }
+
+input[type="text"]:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+button {
+  padding: 8px 12px;
+  margin-top: 10px;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #27ae60;
+}
+
+button[style*="color: red"] {
+  background-color: #e74c3c;
+  margin-left: 10px;
+}
+
+button[style*="color: red"]:hover {
+  background-color: #c0392b;
+}
+
+.npc-card {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #fefefe;
+  border: 1px solid #dcdde1;
+  border-radius: 10px;
+  box-shadow: 0px 3px 10px rgba(0,0,0,0.05);
+}
+
+.npc-card strong {
+  color: #34495e;
+}
+
+.npc-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.npc-fields input {
+    min-width: unset;
+    width: 100px;
+    font-size: 13px;
+    padding: 5px 6px;
+  }

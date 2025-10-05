@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import TreeViewer from './TreeViewer'; // Novo componente visual
 import './DialogManager.css';
 
@@ -7,17 +7,66 @@ const DialogoManager = () => {
   const [npcList, setNpcList] = useState([]);
   const [dialogo, setDialogo] = useState({});
   const [viewMode, setViewMode] = useState('edit'); // 'edit' ou 'tree'
+  const [status, setStatus] = useState({ type: 'idle', message: '' });
+  const [isLoading, setIsLoading] = useState(false);
+  const [dragState, setDragState] = useState({ activeIndex: null, overIndex: null });
+  const sanitizeDialogo = useCallback((data = {}) => {
+    const respostas = Array.isArray(data?.inicio?.respostas)
+      ? data.inicio.respostas.filter((resp) => typeof resp === 'string' && resp.trim().length)
+      : [];
+
+    const npc = data?.inicio?.npc && typeof data.inicio.npc === 'object'
+      ? Object.fromEntries(
+          Object.entries(data.inicio.npc).map(([fala, valores]) => [
+            fala,
+            {
+              resposta: valores?.resposta ?? '',
+              proximas: Array.isArray(valores?.proximas)
+                ? valores.proximas.filter((prox) => typeof prox === 'string')
+                : [],
+            },
+          ]),
+        )
+      : {};
+
+    return {
+      ...data,
+      inicio: {
+        respostas,
+        npc,
+      },
+    };
+  }, []);
 
   useEffect(() => {
     fetch('http://localhost:8000/npcs')
       .then(res => res.json())
-      .then(setNpcList);
+      .then(setNpcList)
+      .catch(() => setStatus({ type: 'error', message: 'Não foi possível carregar a lista de NPCs.' }));
   }, []);
 
   const fetchDialogo = async () => {
-    const res = await fetch(`http://localhost:8000/dialogos/${npcId}`);
-    const data = await res.json();
-    setDialogo(data);
+    if (!npcId) {
+      setStatus({ type: 'error', message: 'Selecione um NPC antes de carregar o diálogo.' });
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setStatus({ type: 'loading', message: 'Carregando diálogo…' });
+      const res = await fetch(`http://localhost:8000/dialogos/${npcId}`);
+      if (!res.ok) {
+        throw new Error('Falha ao carregar diálogo');
+      }
+      const data = await res.json();
+      setDialogo(sanitizeDialogo(data));
+      setStatus({ type: 'success', message: 'Diálogo carregado com sucesso.' });
+    } catch (error) {
+      console.error(error);
+      setStatus({ type: 'error', message: 'Ocorreu um erro ao carregar o diálogo. Tente novamente.' });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (key, value) => {
@@ -36,9 +85,9 @@ const DialogoManager = () => {
       inicio: {
         ...prev.inicio,
         npc: {
-          ...prev.inicio.npc,
+          ...(prev.inicio?.npc ?? {}),
           [fala]: {
-            ...prev.inicio.npc[fala],
+            ...(prev.inicio?.npc?.[fala] ?? {}),
             [prop]: value
           }
         }
@@ -59,12 +108,23 @@ const DialogoManager = () => {
   };
 
   const salvarDialogo = async () => {
-    await fetch(`http://localhost:8000/dialogos/${npcId}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dialogo)
-    });
-    alert('Salvo!');
+    if (!npcId) {
+      setStatus({ type: 'error', message: 'Selecione um NPC antes de salvar.' });
+      return;
+    }
+
+    try {
+      setStatus({ type: 'loading', message: 'Salvando diálogo…' });
+      await fetch(`http://localhost:8000/dialogos/${npcId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dialogo)
+      });
+      setStatus({ type: 'success', message: 'Diálogo salvo com sucesso!' });
+    } catch (error) {
+      console.error(error);
+      setStatus({ type: 'error', message: 'Não foi possível salvar o diálogo. Verifique sua conexão.' });
+    }
   };
 
   const moveFala = (index, direction) => {
@@ -90,6 +150,69 @@ const DialogoManager = () => {
     });
   };
 
+    const reorderFalas = useCallback((origem, destino) => {
+    setDialogo(prev => {
+      const respostas = Array.isArray(prev.inicio?.respostas)
+        ? [...prev.inicio.respostas]
+        : [];
+
+      if (origem === null || destino === null || origem === destino) {
+        return prev;
+      }
+
+      if (origem < 0 || destino < 0 || origem >= respostas.length || destino >= respostas.length) {
+        return prev;
+      }
+
+      const itens = [...respostas];
+      const [removido] = itens.splice(origem, 1);
+      itens.splice(destino, 0, removido);
+
+      return {
+        ...prev,
+        inicio: {
+          ...prev.inicio,
+          respostas: itens,
+        },
+      };
+    });
+  }, []);
+
+  const dragHelpers = useMemo(() => ({
+    onDragStart: (index) => (event) => {
+      setDragState({ activeIndex: index, overIndex: index });
+      event.dataTransfer.effectAllowed = 'move';
+      event.dataTransfer.setData('text/plain', String(index));
+    },
+    onDragEnter: (index) => (event) => {
+      event.preventDefault();
+      setDragState(prev => (prev.overIndex === index ? prev : { ...prev, overIndex: index }));
+    },
+    onDragOver: () => (event) => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+    },
+    onDrop: (index) => (event) => {
+      event.preventDefault();
+      const origem = dragState.activeIndex ?? Number(event.dataTransfer.getData('text/plain'));
+      reorderFalas(origem, index);
+      setDragState({ activeIndex: null, overIndex: null });
+    },
+    onDragEnd: () => () => {
+      setDragState({ activeIndex: null, overIndex: null });
+    },
+  }), [dragState.activeIndex, reorderFalas]);
+
+  const statusMessage = useMemo(() => {
+    if (!status.message) return null;
+
+    return (
+      <div className={`dialog-status dialog-status--${status.type}`} role="status">
+        {status.message}
+      </div>
+    );
+  }, [status]);
+
   return (
     <div className="dialogo-manager">
       <h2>Gerenciar Diálogo</h2>
@@ -97,7 +220,9 @@ const DialogoManager = () => {
         <option value="">-- Selecione um NPC --</option>
         {npcList.map(n => <option key={n.id} value={n.id}>{n.nome}</option>)}
       </select>
-      <button onClick={fetchDialogo}>🔄 Carregar Diálogo</button>
+      <button onClick={fetchDialogo} disabled={isLoading}>🔄 Carregar Diálogo</button>
+
+      {statusMessage}
 
       {dialogo.inicio && (
         <>
@@ -119,9 +244,9 @@ const DialogoManager = () => {
                 setDialogo(prev => ({
                   ...prev,
                   inicio: {
-                    respostas: [...prev.inicio.respostas, fala],
+                    respostas: [...(prev.inicio?.respostas ?? []), fala],
                     npc: {
-                      ...prev.inicio.npc,
+                      ...(prev.inicio?.npc ?? {}),
                       [fala]: {
                         resposta: resposta,
                         proximas: []
@@ -138,7 +263,22 @@ const DialogoManager = () => {
               {dialogo.inicio.respostas
                 .filter((f) => f && typeof f === 'string') // evita valores inválidos
                 .map((fala, index) => (
-                  <div key={`fala-${index}`} className="fala-card">
+                  <div
+                    key={`fala-${index}`}
+                    className={`fala-card${dragState.overIndex === index ? ' drop-target' : ''}${dragState.activeIndex === index ? ' dragging' : ''}`}
+                    onDragEnter={dragHelpers.onDragEnter(index)}
+                    onDragOver={dragHelpers.onDragOver(index)}
+                    onDrop={dragHelpers.onDrop(index)}
+                  >
+                    <div
+                      className="drag-handle"
+                      draggable
+                      onDragStart={dragHelpers.onDragStart(index)}
+                      onDragEnd={dragHelpers.onDragEnd(index)}
+                      aria-label={`Arrastar para reordenar a fala ${index + 1}`}
+                    >
+                      ⠿
+                    </div>
                     <div className="fala-controles">
                       <button
                         type="button"

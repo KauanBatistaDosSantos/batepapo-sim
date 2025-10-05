@@ -59,12 +59,44 @@
     margin-bottom: 12px;
     background-color: #fff;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    position: relative;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
   }
 
   .fala-controles {
     display: flex;
     gap: 6px;
     margin-bottom: 10px;
+  }
+
+    .fala-card.dragging {
+    opacity: 0.8;
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .fala-card.drop-target {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.25);
+  }
+
+  .drag-handle {
+    cursor: grab;
+    font-size: 18px;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: #ecf0f1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    width: fit-content;
+  }
+
+  .drag-handle:active {
+    cursor: grabbing;
+    background: #d0d7de;
   }
 
   .btn-mover {
@@ -118,6 +150,11 @@
   
   .btn-salvar:hover {
     background-color: #449944;
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
   
   .proximas-lista {
@@ -194,7 +231,33 @@
   .grupo-falas-jogador.nivel-3 {
     border-color: #7f8c8d;
     background-color: #ecf0f1;
-  }  
+  }
+
+.dialog-status {
+  margin: 12px 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dialog-status--loading {
+  background: #fff8e6;
+  color: #b9770e;
+}
+
+.dialog-status--success {
+  background: #e6f9ed;
+  color: #1e8449;
+}
+
+.dialog-status--error {
+  background: #fdecea;
+  color: #c0392b;
+}
+
 .tree-viewer {
   margin-top: 20px;
   padding: 16px;

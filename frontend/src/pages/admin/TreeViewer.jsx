@@ -1,48 +1,39 @@
 import React from 'react';
-import ReactFlow, { Background, Controls } from 'reactflow';
-import 'reactflow/dist/style.css';
 
 const TreeViewer = ({ respostas, npc }) => {
-  const nodes = [];
-  const edges = [];
-
-  const visitados = new Set();
-  let idCounter = 1;
-
-  const createNodes = (fala, parentId = null) => {
-    if (visitados.has(fala)) return;
-    visitados.add(fala);
-
-    const currentId = `node-${idCounter++}`;
-    const npcData = npc[fala] || {};
-
-    nodes.push({
-      id: currentId,
-      data: { label: `${fala}\n→ ${npcData.resposta || ''}` },
-      position: { x: Math.random() * 400, y: idCounter * 100 },
-    });
-
-    if (parentId) {
-      edges.push({ id: `edge-${parentId}-${currentId}`, source: parentId, target: currentId });
+  const renderNode = (fala, caminho = []) => {
+    if (!fala || caminho.includes(fala)) {
+      return null;
     }
 
-    (npcData.proximas || []).forEach(prox => {
-      createNodes(prox, currentId);
-    });
+    const dadosNpc = npc[fala] || {};
+    const proximas = Array.isArray(dadosNpc.proximas) ? dadosNpc.proximas : [];
+
+    return (
+      <li key={`${caminho.join('>')}-${fala}`} className="tree-node">
+        <div className="tree-node__content">
+          <strong>{fala}</strong>
+          {dadosNpc.resposta && <p className="tree-node__resposta">→ {dadosNpc.resposta}</p>}
+        </div>
+        {proximas.length > 0 && (
+          <ul className="tree-node__children">
+            {proximas.map((prox) => renderNode(prox, [...caminho, fala]))}
+          </ul>
+        )}
+      </li>
+    );
   };
 
-  respostas.forEach(r => createNodes(r));
+  if (!Array.isArray(respostas) || respostas.length === 0) {
+    return <p className="tree-viewer__empty">Nenhuma fala inicial cadastrada.</p>;
+  }
 
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      fitView
-      style={{ width: '100%', height: '100%' }}
-    >
-      <Background />
-      <Controls />
-    </ReactFlow>
+    <div className="tree-viewer">
+      <ul className="tree-root">
+        {respostas.map((fala) => renderNode(fala, []))}
+      </ul>
+    </div>
   );
 };
 

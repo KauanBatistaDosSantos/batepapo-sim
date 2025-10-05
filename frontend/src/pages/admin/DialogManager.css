@@ -52,13 +52,30 @@
     margin-top: 16px;
   }
   
-  .fala-card {
+.fala-card {
     border: 1px solid #ddd;
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 12px;
     background-color: #fff;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  .fala-controles {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .btn-mover {
+    padding: 6px 10px;
+    font-size: 14px;
+    background-color: #8e44ad;
+  }
+
+  .btn-mover:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
   
   .fala-card input[type="text"],
@@ -178,3 +195,62 @@
     border-color: #7f8c8d;
     background-color: #ecf0f1;
   }  
+.tree-viewer {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f9fbfd;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.tree-root {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.tree-node {
+  margin-left: 0;
+  padding-left: 16px;
+  position: relative;
+}
+
+.tree-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 6px;
+  bottom: 0;
+  width: 2px;
+  background-color: #d0d7de;
+}
+
+.tree-node__content {
+  background: #ffffff;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tree-node__resposta {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #34495e;
+}
+
+.tree-node__children {
+  list-style: none;
+  padding-left: 16px;
+  margin: 4px 0 0;
+}
+
+.tree-viewer__empty {
+  margin-top: 12px;
+  text-align: center;
+  color: #7f8c8d;
+  font-style: italic;
+}

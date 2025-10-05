@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import TreeViewer from './TreeViewer'; // Novo componente visual
-import { v4 as uuidv4 } from 'uuid';
 import './DialogManager.css';
 
 const DialogoManager = () => {
@@ -69,12 +67,27 @@ const DialogoManager = () => {
     alert('Salvo!');
   };
 
-  const onDragEnd = (result) => {
-    if (!result.destination) return;
-    const reordered = Array.from(dialogo.inicio.respostas);
-    const [moved] = reordered.splice(result.source.index, 1);
-    reordered.splice(result.destination.index, 0, moved);
-    handleChange('respostas', reordered);
+  const moveFala = (index, direction) => {
+    setDialogo(prev => {
+      const respostas = Array.isArray(prev.inicio?.respostas)
+        ? [...prev.inicio.respostas]
+        : [];
+      const destino = index + direction;
+
+      if (destino < 0 || destino >= respostas.length) {
+        return prev;
+      }
+
+      [respostas[index], respostas[destino]] = [respostas[destino], respostas[index]];
+
+      return {
+        ...prev,
+        inicio: {
+          ...prev.inicio,
+          respostas,
+        }
+      };
+    });
   };
 
   return (
@@ -121,86 +134,89 @@ const DialogoManager = () => {
             >➕ Adicionar grupo de fala</button>
       
             {/* Nível 1 - como já estava */}
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="falas">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps} className="falas-list">
-                    {dialogo.inicio.respostas
-  .filter((f) => f && typeof f === 'string') // evita valores inválidos
-  .map((fala, index) => (
-    <Draggable key={`draggable-${index}`} draggableId={uuidv4()} index={index}>
+            <div className="falas-list">
+              {dialogo.inicio.respostas
+                .filter((f) => f && typeof f === 'string') // evita valores inválidos
+                .map((fala, index) => (
+                  <div key={`fala-${index}`} className="fala-card">
+                    <div className="fala-controles">
+                      <button
+                        type="button"
+                        onClick={() => moveFala(index, -1)}
+                        disabled={index === 0}
+                        className="btn-mover"
+                        aria-label="Mover fala para cima"
+                      >↑</button>
+                      <button
+                        type="button"
+                        onClick={() => moveFala(index, 1)}
+                        disabled={index === dialogo.inicio.respostas.length - 1}
+                        className="btn-mover"
+                        aria-label="Mover fala para baixo"
+                      >↓</button>
+                    </div>
+                    <div className="jogador-fala">
+                      <label>🎮 Fala do jogador:</label>
+                      <input
+                        value={fala}
+                        onChange={e => {
+                          const novaFala = e.target.value;
+                          const atualizadas = [...dialogo.inicio.respostas];
+                          atualizadas[index] = novaFala;
+                          const npcAtualizado = { ...dialogo.inicio.npc };
+                          npcAtualizado[novaFala] = npcAtualizado[fala];
+                          delete npcAtualizado[fala];
+                          setDialogo(prev => ({
+                            ...prev,
+                            inicio: { respostas: atualizadas, npc: npcAtualizado }
+                          }));
+                        }}
+                      />
+                    </div>
 
+                    <div className="npc-resposta">
+                      <label>🤖 Resposta do NPC:</label>
+                      <textarea
+                        value={dialogo.inicio.npc[fala]?.resposta || ''}
+                        onChange={e => updateFala(fala, 'resposta', e.target.value)}
+                      />
+                    </div>
 
-                        {(provided) => (
-                          <div className="fala-card" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <div className="jogador-fala">
-                              <label>🎮 Fala do jogador:</label>
-                              <input
-                                value={fala}
-                                onChange={e => {
-                                  const novaFala = e.target.value;
-                                  const atualizadas = [...dialogo.inicio.respostas];
-                                  atualizadas[index] = novaFala;
-                                  const npcAtualizado = { ...dialogo.inicio.npc };
-                                  npcAtualizado[novaFala] = npcAtualizado[fala];
-                                  delete npcAtualizado[fala];
-                                  setDialogo(prev => ({
-                                    ...prev,
-                                    inicio: { respostas: atualizadas, npc: npcAtualizado }
-                                  }));
-                                }}
-                              />
-                            </div>
-      
-                            <div className="npc-resposta">
-                              <label>🤖 Resposta do NPC:</label>
-                              <textarea
-                                value={dialogo.inicio.npc[fala]?.resposta || ''}
-                                onChange={e => updateFala(fala, 'resposta', e.target.value)}
-                              />
-                            </div>
-      
-                            <div className="proximas-falas">
-                              <label>📌 Próximas falas possíveis:</label>
-                              {(dialogo.inicio.npc[fala]?.proximas || []).map((prox, i) => (
-                                <div key={i} className="prox-item">
-                                  <input
-                                    type="text"
-                                    value={prox}
-                                    onChange={(e) => {
-                                      const novas = [...dialogo.inicio.npc[fala].proximas];
-                                      novas[i] = e.target.value;
-                                      updateFala(fala, 'proximas', novas);
-                                    }}
-                                  />
-                                  <button
-                                    onClick={() => {
-                                      const novas = dialogo.inicio.npc[fala].proximas.filter((_, idx) => idx !== i);
-                                      updateFala(fala, 'proximas', novas);
-                                    }}
-                                    className="btn-remove"
-                                  >❌</button>
-                                </div>
-                              ))}
-                              <button
-                                onClick={() => {
-                                  const novas = [...(dialogo.inicio.npc[fala]?.proximas || []), ''];
-                                  updateFala(fala, 'proximas', novas);
-                                }}
-                                style={{ marginTop: '4px' }}
-                              >➕ Nova próxima fala</button>
-                            </div>
-      
-                            <button onClick={() => removeFala(fala)} className="btn-remove">❌ Remover fala inteira</button>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
+                    <div className="proximas-falas">
+                      <label>📌 Próximas falas possíveis:</label>
+                      {(dialogo.inicio.npc[fala]?.proximas || []).map((prox, i) => (
+                        <div key={i} className="prox-item">
+                          <input
+                            type="text"
+                            value={prox}
+                            onChange={(e) => {
+                              const novas = [...dialogo.inicio.npc[fala].proximas];
+                              novas[i] = e.target.value;
+                              updateFala(fala, 'proximas', novas);
+                            }}
+                          />
+                          <button
+                            onClick={() => {
+                              const novas = dialogo.inicio.npc[fala].proximas.filter((_, idx) => idx !== i);
+                              updateFala(fala, 'proximas', novas);
+                            }}
+                            className="btn-remove"
+                          >❌</button>
+                        </div>
+                      ))}
+                      <button
+                        onClick={() => {
+                          const novas = [...(dialogo.inicio.npc[fala]?.proximas || []), ''];
+                          updateFala(fala, 'proximas', novas);
+                        }}
+                        style={{ marginTop: '4px' }}
+                      >➕ Nova próxima fala</button>
+                    </div>
+
+                    <button onClick={() => removeFala(fala)} className="btn-remove">❌ Remover fala inteira</button>
                   </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+                ))}
+            </div>
           </div>
         )}
       

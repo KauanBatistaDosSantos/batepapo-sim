@@ -186,13 +186,12 @@ const Chat = ({ npc, goBack, openProfile }) => {
       .then(res => res.json())
       .then(data => setMessages(data));
 
-      fetch('http://localhost:8000/dialogos/ID_DO_NPC')
+      fetch(`http://localhost:8000/dialogos/${npc.id}`)
       .then(res => res.json())
       .then(data => {
-        const npcTree = data[npc.id];
-        if (npcTree && npcTree.inicio) {
-          setDialogTree(npcTree);
-          setOptions(npcTree.inicio.respostas);
+        if (data && data.inicio) {
+          setDialogTree(data);
+          setOptions(data.inicio.respostas);
           setCurrentStep('inicio');
         }
       });
@@ -202,7 +201,7 @@ const Chat = ({ npc, goBack, openProfile }) => {
 
   
   const carregarGaleria = () => {
-    fetch('http://localhost:8000/fotos?npc_id=ID_DO_NPC')
+    fetch(`http://localhost:8000/fotos?npc_id=${npc.id}`)
       .then(res => res.json())
       .then(fotos => {
         const imagensFiltradas = fotos

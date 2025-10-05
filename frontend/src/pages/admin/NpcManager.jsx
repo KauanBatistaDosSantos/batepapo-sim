@@ -44,10 +44,9 @@ const NpcManager = () => {
     const atualizado = npcs.filter(n => n.id !== id);
     setNpcs(atualizado);
 
-    await fetch('http://localhost:8000/npcs', {
+    await fetch(`http://localhost:8000/npcs/${id}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(atualizado)
+      headers: { 'Content-Type': 'application/json' }
     });
   };
 

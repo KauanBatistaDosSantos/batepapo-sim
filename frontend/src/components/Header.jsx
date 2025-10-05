@@ -16,6 +16,10 @@ const Header = ({ avatarUrl, name }) => {
           className="profile-pic"
         />
       </div>
+      <div className="profile-info">
+        <span className="profile-greeting">Olá,</span>
+        <strong className="profile-name">{name || 'Visitante'}</strong>
+      </div>
     </header>
   );
 };

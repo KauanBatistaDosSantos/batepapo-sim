@@ -2,11 +2,10 @@
   {
     "id": 1,
     "nome": "Lucas",
-    "foto": "http://localhost:8000/fotos/foto1.jpeg",
-    "foto1": "https://i.pravatar.cc/150?img=15",
-    "distancia": 300,
-    "online": true,
     "idade": 25,
+    "foto": "http://localhost:8000/fotos/foto1.jpeg",
+    "favorito": true,
+    "bloqueado": false,
     "altura": "1,80m",
     "peso": "100kg",
     "corpo": "Parrudo",
@@ -20,8 +19,7 @@
     "signo": "Virginiano",
     "instagram": "@lucas.bonito",
     "sobre": "Sou tranquilo, adoro sair, conversar e conhecer gente nova. Sem pressa, sem pressão.",
-    "ultimaOnline": "12 minutos atrás",
-    "favorito": true
+    "ultimaOnline": "12 minutos atrás"
   },
   {
     "id": 2,
@@ -43,7 +41,8 @@
     "signo": "Libriano",
     "instagram": "@rafael.travels",
     "sobre": "Gosto de praia, séries e um bom vinho.",
-    "ultimaOnline": "1 hora atrás"
+    "ultimaOnline": "1 hora atrás",
+    "bloqueado": false
   },
   {
     "id": 3,

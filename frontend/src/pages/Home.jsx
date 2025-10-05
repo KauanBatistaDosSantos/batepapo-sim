@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Filters from '../components/Filters';
 import ProfileGrid from '../components/ProfileGrid';
 
-const Home = ({ openNpcProfile, blockedNpcs }) => {
+const Home = ({ openNpcProfile, blockedNpcs, userProfile }) => {
   const [npcsOriginais, setNpcsOriginais] = useState([]);
   const [npcsFiltrados, setNpcsFiltrados] = useState([]);
   const [filtrosAtivos, setFiltrosAtivos] = useState([]);
@@ -80,7 +80,7 @@ const Home = ({ openNpcProfile, blockedNpcs }) => {
 
   return (
     <div className="home-page">
-      <Header />
+      <Header avatarUrl={userProfile?.avatarUrl} name={userProfile?.name} />
       <Filters
         filtrosAtivos={filtrosAtivos}
         setFiltrosAtivos={setFiltrosAtivos}

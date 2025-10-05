@@ -1,15 +1,18 @@
 import React from 'react';
 import './Header.css';
 
-const Header = () => {
+const Header = ({ avatarUrl, name }) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+  const fallbackAvatar = `${backendUrl}/fotos/luan.jpg`;
+  const profileImage = avatarUrl && avatarUrl.trim() !== '' ? avatarUrl : fallbackAvatar;
+  const altText = name ? `Foto de perfil de ${name}` : 'Foto de perfil do usuário';
 
   return (
     <header className="header">
       <div className="profile-container">
         <img
-          src={`${backendUrl}/fotos/luan.jpg`}
-          alt="User"
+          src={profileImage}
+          alt={altText}
           className="profile-pic"
         />
       </div>

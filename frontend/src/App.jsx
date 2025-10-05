@@ -136,6 +136,7 @@ function App() {
             <Home
               openNpcProfile={openNpcProfile}
               blockedNpcs={blockedNpcs}
+              userProfile={userProfile}
             />
           )}
 

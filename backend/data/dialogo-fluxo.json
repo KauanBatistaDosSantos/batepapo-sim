@@ -7,32 +7,165 @@
       ],
       "npc": {
         "Oi, tudo bem?": {
-          "resposta": "Tudo ótimo! E você?",
+          "player": {
+            "tipo": "texto",
+            "texto": "Oi, tudo bem?"
+          },
+          "resposta": {
+            "texto": "Tudo ótimo! E você?"
+          },
           "proximas": [
             "Melhor agora 😏",
-            "Só de boas."
+            "Só de boas.",
+            "Quer uma foto minha?"
           ]
         },
         "Você parece legal!": {
-          "resposta": "Ah, valeu! Você também tem um ótimo perfil.",
+          "player": {
+            "tipo": "texto",
+            "texto": "Você parece legal!"
+          },
+          "resposta": {
+            "texto": "Ah, valeu! Você também tem um ótimo perfil."
+          },
           "proximas": [
             "Gostou do meu perfil?",
             "Quer conversar mais?"
           ]
         },
         "Melhor agora 😏": {
-          "resposta": "Haha, adorei isso 😄",
+          "player": {
+            "tipo": "texto",
+            "texto": "Melhor agora 😏"
+          },
+          "resposta": {
+            "texto": "Haha, adorei isso 😄"
+          },
           "proximas": [
             "Então vamos marcar algo?",
             "Você é sempre assim simpático?"
           ]
         },
         "Só de boas.": {
-          "resposta": "Tranquilo é sempre bom 😌",
+          "player": {
+            "tipo": "texto",
+            "texto": "Só de boas."
+          },
+          "resposta": {
+            "texto": "Tranquilo é sempre bom 😌"
+          },
           "proximas": [
             "Gosta de sair?",
             "Curte séries?"
           ]
+        },
+        "Quer uma foto minha?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Quer uma foto minha?"
+          },
+          "resposta": {
+            "texto": "Quero sim! Tem alguma favorita aí?"
+          },
+          "proximas": [
+            "Manda essa aqui",
+            "Depois te mando"
+          ]
+        },
+        "Manda essa aqui": {
+          "player": {
+            "tipo": "imagem",
+            "url": "/fotos/luanSelfie2.jpg",
+            "legenda": "Olha essa"
+          },
+          "resposta": {
+            "texto": "🔥🔥🔥",
+            "imagem": "/fotos/luanPraia.jpg",
+            "legenda": "Essa é uma das minhas favoritas"
+          },
+          "proximas": [
+            "Gostou?"
+          ]
+        },
+        "Depois te mando": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Depois te mando"
+          },
+          "resposta": {
+            "texto": "Ahh, fiquei curioso hein!"
+          },
+          "proximas": []
+        },
+        "Gostou?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Gostou?"
+          },
+          "resposta": {
+            "texto": "Muito! Quero ver mais depois 😏"
+          },
+          "proximas": []
+        },
+        "Então vamos marcar algo?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Então vamos marcar algo?"
+          },
+          "resposta": {
+            "texto": "Bora combinar algo fim de semana?"
+          },
+          "proximas": []
+        },
+        "Você é sempre assim simpático?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Você é sempre assim simpático?"
+          },
+          "resposta": {
+            "texto": "Só com quem vale a pena 😘"
+          },
+          "proximas": []
+        },
+        "Gosta de sair?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Gosta de sair?"
+          },
+          "resposta": {
+            "texto": "Adoro um rolê, e você?"
+          },
+          "proximas": []
+        },
+        "Curte séries?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Curte séries?"
+          },
+          "resposta": {
+            "texto": "Demais! Qual sua favorita agora?"
+          },
+          "proximas": []
+        },
+        "Gostou do meu perfil?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Gostou do meu perfil?"
+          },
+          "resposta": {
+            "texto": "Curti muito, principalmente suas fotos!"
+          },
+          "proximas": []
+        },
+        "Quer conversar mais?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Quer conversar mais?"
+          },
+          "resposta": {
+            "texto": "Quero sim, bora ficar por aqui um tempo"
+          },
+          "proximas": []
         }
       }
     }
@@ -45,18 +178,72 @@
       ],
       "npc": {
         "Oi Rafael! Tudo certo?": {
-          "resposta": "Tudo sim, e você?",
+          "player": {
+            "tipo": "texto",
+            "texto": "Oi Rafael! Tudo certo?"
+          },
+          "resposta": {
+            "texto": "Tudo sim, e você?"
+          },
           "proximas": [
             "Melhor agora 😏",
             "Tudo ótimo!"
           ]
         },
         "Amei sua última foto!": {
-          "resposta": "Sério? Foi em Trancoso 😎",
+          "player": {
+            "tipo": "texto",
+            "texto": "Amei sua última foto!"
+          },
+          "resposta": {
+            "texto": "Sério? Foi em Trancoso 😎",
+            "imagem": "/fotos/luan.jpg",
+            "legenda": "Foi esse dia aqui"
+          },
           "proximas": [
             "Lá parece lindo!",
             "Quero ir um dia!"
           ]
+        },
+        "Melhor agora 😏": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Melhor agora 😏"
+          },
+          "resposta": {
+            "texto": "Haha, curti a animação"
+          },
+          "proximas": []
+        },
+        "Tudo ótimo!": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Tudo ótimo!"
+          },
+          "resposta": {
+            "texto": "Perfeito! Me conta algo sobre você"
+          },
+          "proximas": []
+        },
+        "Lá parece lindo!": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Lá parece lindo!"
+          },
+          "resposta": {
+            "texto": "É demais, praia branquinha e vibe calma"
+          },
+          "proximas": []
+        },
+        "Quero ir um dia!": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Quero ir um dia!"
+          },
+          "resposta": {
+            "texto": "Quando for me chama que eu volto lá com você"
+          },
+          "proximas": []
         }
       }
     }
@@ -69,18 +256,96 @@
       ],
       "npc": {
         "Hey gatinho": {
-          "resposta": "Gatinho haha, ótimo começo",
+          "player": {
+            "tipo": "texto",
+            "texto": "Hey gatinho"
+          },
+          "resposta": {
+            "texto": "Gatinho haha, ótimo começo"
+          },
           "proximas": [
             "Esse gatinho mia?",
-            "Gostou, aí simm"
+            "Gostou, aí simm",
+            "Te mando uma foto"
           ]
         },
         "Oii": {
-          "resposta": "E aí, como tá?",
+          "player": {
+            "tipo": "texto",
+            "texto": "Oii"
+          },
+          "resposta": {
+            "texto": "E aí, como tá?"
+          },
           "proximas": [
             "Bem e você?",
             "De boa haha"
           ]
+        },
+        "Esse gatinho mia?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Esse gatinho mia?"
+          },
+          "resposta": {
+            "texto": "Só ronrona se você ficar por perto 😼"
+          },
+          "proximas": []
+        },
+        "Gostou, aí simm": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Gostou, aí simm"
+          },
+          "resposta": {
+            "texto": "Curti mesmo, continue assim"
+          },
+          "proximas": []
+        },
+        "Te mando uma foto": {
+          "player": {
+            "tipo": "imagem",
+            "url": "/fotos/luanSelfie.jpg",
+            "legenda": "Olha eu"
+          },
+          "resposta": {
+            "texto": "Aff, que gatinho 🔥",
+            "imagem": "/fotos/luan.jpg",
+            "legenda": "Deixa eu retribuir"
+          },
+          "proximas": [
+            "Tem mais?"
+          ]
+        },
+        "Tem mais?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Tem mais?"
+          },
+          "resposta": {
+            "texto": "Sempre tem, mas só se você merecer 😉"
+          },
+          "proximas": []
+        },
+        "Bem e você?": {
+          "player": {
+            "tipo": "texto",
+            "texto": "Bem e você?"
+          },
+          "resposta": {
+            "texto": "Melhor agora falando contigo"
+          },
+          "proximas": []
+        },
+        "De boa haha": {
+          "player": {
+            "tipo": "texto",
+            "texto": "De boa haha"
+          },
+          "resposta": {
+            "texto": "Então bora agitar isso"
+          },
+          "proximas": []
         }
       }
     }

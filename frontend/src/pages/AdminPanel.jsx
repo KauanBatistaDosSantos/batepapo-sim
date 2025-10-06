@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './AdminPanel.css';
 import NpcManager from './admin/NpcManager';
 import DialogManager from './admin/DialogManager';
+import FotosManager from './admin/FotosManager';
+import ConversationTools from './admin/ConversationTools';
 
 const sections = {
   npcs: {
@@ -26,6 +28,15 @@ const sections = {
     title: 'Biblioteca de Fotos',
     description:
       'Faça upload de novas imagens, organize em coleções e mantenha tudo pronto para o storytelling.',
+    component: <FotosManager />,
+  },
+  conversas: {
+    icon: '🧹',
+    label: 'Conversas',
+    title: 'Histórico de Conversas',
+    description:
+      'Limpe rapidamente o histórico salvo no backend para começar fluxos do zero.',
+    component: <ConversationTools />,
   },
   filtros: {
     icon: '🧪',

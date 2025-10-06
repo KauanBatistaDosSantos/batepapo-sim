@@ -1,21 +1,34 @@
 [
-    {
-      "npcId": 1,
-      "autor": "player",
-      "url": "/fotos/luanSelfie.jpg",
-      "data": "2025-04-02T15:30:00"
-    },
-    {
-      "npcId": 1,
-      "autor": "player",
-      "url": "/fotos/luanPraia.jpg",
-      "data": "2025-04-01T12:15:00"
-    },
-    {
-      "npcId": 1,
-      "autor": "player",
-      "url": "/fotos/luanSelfie2.jpg",
-      "data": "2025-03-30T22:00:00"
-    }
-  ]
-  
+  {
+    "id": 1,
+    "npcId": 1,
+    "autor": "player",
+    "url": "/fotos/luanSelfie.jpg",
+    "legenda": "Selfie no espelho",
+    "data": "2025-04-02T15:30:00"
+  },
+  {
+    "id": 2,
+    "npcId": 1,
+    "autor": "player",
+    "url": "/fotos/luanPraia.jpg",
+    "legenda": "Curtindo a praia",
+    "data": "2025-04-01T12:15:00"
+  },
+  {
+    "id": 3,
+    "npcId": 1,
+    "autor": "player",
+    "url": "/fotos/luanSelfie2.jpg",
+    "legenda": "Cara de mistério",
+    "data": "2025-03-30T22:00:00"
+  },
+  {
+    "id": 4,
+    "npcId": 3,
+    "autor": "npc",
+    "url": "/fotos/luan.jpg",
+    "legenda": "Foto preferida do NPC",
+    "data": "2025-04-05T18:00:00"
+  }
+]

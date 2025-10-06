@@ -6,7 +6,7 @@ import os
 from fastapi import HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi import Body
-from typing import Optional
+from typing import Optional, Literal
 
 app = FastAPI()
 
@@ -57,10 +57,6 @@ def salvar_json(caminho, data):
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 # === Schemas ===
-class MensagemPayload(BaseModel):
-    npc_id: int
-    mensagens: list
-
 class NpcModel(BaseModel):
     id: int
     nome: str = ""
@@ -86,6 +82,15 @@ class NpcModel(BaseModel):
     sobre: str = ""
     ultimaOnline: str = ""
 
+
+class FotoModel(BaseModel):
+    id: Optional[int] = None
+    npcId: int
+    autor: Literal["player", "npc"]
+    url: str
+    data: Optional[str] = None
+    legenda: Optional[str] = ""
+
 # 📥 Endpoints
 
 @app.get("/npcs")
@@ -104,6 +109,49 @@ def get_fotos(npc_id: int = None):
         return [f for f in todas if f.get("npcId") == npc_id]
     return todas
 
+
+@app.post("/fotos")
+def adicionar_foto(foto: FotoModel):
+    fotos = ler_json(ARQUIVO_FOTOS, [])
+
+    novo_id = foto.id
+    if novo_id is None:
+        existente = [f.get("id", 0) for f in fotos if isinstance(f.get("id"), int)]
+        novo_id = (max(existente) if existente else 0) + 1
+
+    if any(f.get("id") == novo_id for f in fotos):
+        raise HTTPException(status_code=400, detail="ID da foto já utilizado")
+
+    dados = foto.dict()
+    dados["id"] = novo_id
+    fotos.append(dados)
+    salvar_json(ARQUIVO_FOTOS, fotos)
+    return {"status": "ok", "id": novo_id}
+
+
+@app.put("/fotos/{foto_id}")
+def editar_foto(foto_id: int, foto: FotoModel):
+    fotos = ler_json(ARQUIVO_FOTOS, [])
+    index = next((i for i, f in enumerate(fotos) if f.get("id") == foto_id), None)
+    if index is None:
+        raise HTTPException(status_code=404, detail="Foto não encontrada")
+
+    dados = foto.dict()
+    dados["id"] = foto_id
+    fotos[index] = dados
+    salvar_json(ARQUIVO_FOTOS, fotos)
+    return {"status": "ok"}
+
+
+@app.delete("/fotos/{foto_id}")
+def remover_foto(foto_id: int):
+    fotos = ler_json(ARQUIVO_FOTOS, [])
+    novas = [f for f in fotos if f.get("id") != foto_id]
+    if len(novas) == len(fotos):
+        raise HTTPException(status_code=404, detail="Foto não encontrada")
+    salvar_json(ARQUIVO_FOTOS, novas)
+    return {"status": "removida"}
+
 @app.get("/mensagens/")
 def listar_todas_conversas():
     return ler_json(ARQUIVO_CONVERSAS, {})
@@ -119,6 +167,24 @@ def post_mensagens(npc_id: int, payload: MensagemPayload):
     todas[str(npc_id)] = payload.mensagens
     salvar_json(ARQUIVO_CONVERSAS, todas)
     return {"status": "ok"}
+
+
+@app.post("/mensagens/reset")
+def resetar_mensagens(payload: dict = Body(default={})):  # type: ignore[assignment]
+    npc_id = payload.get("npc_id") if isinstance(payload, dict) else None
+    todas = ler_json(ARQUIVO_CONVERSAS, {})
+
+    if npc_id is None:
+        salvar_json(ARQUIVO_CONVERSAS, {})
+        return {"status": "ok", "escopo": "todas"}
+
+    chave = str(npc_id)
+    if chave in todas:
+        del todas[chave]
+        salvar_json(ARQUIVO_CONVERSAS, todas)
+        return {"status": "ok", "escopo": "npc", "npc_id": npc_id}
+
+    return {"status": "ok", "escopo": "npc", "npc_id": npc_id, "mensagens": 0}
 
 @app.post("/npcs/{npc_id}/favorito")
 def toggle_favorito(npc_id: int):

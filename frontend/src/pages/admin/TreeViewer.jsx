@@ -8,12 +8,16 @@ const TreeViewer = ({ respostas, npc }) => {
 
     const dadosNpc = npc[fala] || {};
     const proximas = Array.isArray(dadosNpc.proximas) ? dadosNpc.proximas : [];
+    const respostaNpc =
+      typeof dadosNpc.resposta === 'string'
+        ? dadosNpc.resposta
+        : dadosNpc.resposta?.texto ?? '';
 
     return (
       <li key={`${caminho.join('>')}-${fala}`} className="tree-node">
         <div className="tree-node__content">
           <strong>{fala}</strong>
-          {dadosNpc.resposta && <p className="tree-node__resposta">→ {dadosNpc.resposta}</p>}
+          {respostaNpc && <p className="tree-node__resposta">→ {respostaNpc}</p>}
         </div>
         {proximas.length > 0 && (
           <ul className="tree-node__children">
